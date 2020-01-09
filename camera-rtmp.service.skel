@@ -1,0 +1,14 @@
+[Unit]
+Description=SWHR Camera RTMP Stream
+After=syslog.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/stdbuf -oL -eL {{directory}}/camera-rtmp
+WorkingDirectory={{directory}}
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

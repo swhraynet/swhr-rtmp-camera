@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+source_dir="$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)"
+cd "$source_dir"
+
+END_RESULT=0
+
+start_service () {
+    service=$1;
+    sudo systemctl start "$service"
+    RESULT=$?
+    if [ $RESULT -ne 0 ];
+    then
+      echo "Starting the service FAILED - contact SWHR tech support!"
+      END_RESULT=1
+    fi
+}
+
+start_service "rtmp-watchdog"
+start_service "camera-rtmp"
+
+if [ $END_RESULT -eq 0 ];
+then
+    echo "All ok, we appear to be running!"
+fi

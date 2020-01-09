@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+CAMERA_IP=""
+CAMERA_PORT="88" # "88" is a common default
+CAMERA_USERNAME="admin"
+CAMERA_PASSWORD="password123"
+CAMERA_STREAMNAME="videoMain" # "videoMain" or "videoSub"
+
+SERVER_STREAM_KEY=""
+
+while [ 1 ]
+do
+  ffmpeg -rtsp_transport tcp -i rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT}/${CAMERA_STREAMNAME} -c:v copy -an -f flv rtmp://swhr.org.uk:1935/live/${SERVER_STREAM_KEY};
+  sleep 1;
+done
