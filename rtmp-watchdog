@@ -8,22 +8,23 @@ SERVER_STREAM_NAME="out1"
 fail=10
 while [ 1 ]
 do
+  echo "SWHR rtmp-watchdog: querying server.."
   if curl -s 'https://swhr.org.uk/rtmp/status' | grep "${SERVER_STREAM_NAME}" >/dev/null
   then
     # We got a response and the SERVER_STREAM_NAME was in it, so all ok, reset counter
-    echo "ok"
+    echo "SWHR rtmp-watchdog: stream ok"
     fail=10
   else
     # Either there was no response, so internet is down and maybe a good idea to restart ffmpeg anyway,
     #  or we got a response, but the stream isn't running, so we might need to restart ffmpeg
     #  so, decrement the counter
     fail=$((fail-1))
-    echo "fail ${fail}/0"
+    echo "SWHR rtmp-watchdog: WARNING stream fail! ${fail} attempts remaining"
     # The counter will be less than 1 if we've had 10 consecutive failures (approx 12 seconds or a bit more)
     if [[ "${fail}" -lt 1 ]]
     then
       # Counter is 0, so reset ffmpeg, then give it a bit longer (~25 seconds) for the stream to come back
-      echo "killing ffmpeg so it restarts!"
+      echo "SWHR rtmp-watchdog: Killing ffmpeg so it restarts!"
       sudo killall -9 ffmpeg
       fail=20
     fi

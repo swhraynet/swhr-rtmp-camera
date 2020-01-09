@@ -10,6 +10,8 @@ SERVER_STREAM_KEY=""
 
 while [ 1 ]
 do
-  ffmpeg -rtsp_transport tcp -i rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT}/${CAMERA_STREAMNAME} -c:v copy -an -f flv rtmp://swhr.org.uk:1935/live/${SERVER_STREAM_KEY};
+  echo "SWHR camera-rtmp: Starting ffmpeg.."
+  ffmpeg -hide_banner -rtsp_transport tcp -i rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT}/${CAMERA_STREAMNAME} -c:v copy -an -f flv rtmp://swhr.org.uk:1935/live/${SERVER_STREAM_KEY};
+  echo "SWHR camera-rtmp: WARNING ffmpeg exited, waiting 1 second.."
   sleep 1;
 done

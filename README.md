@@ -27,7 +27,7 @@ There are several parameters in the top of each file that need configuring befor
 
 ### _camera-rtmp_
 
- * `CAMERA_IP` - If unknown this can be found by using the included `foscan-scan` tool.
+ * `CAMERA_IP` - If unknown this can be found by scanning with the command `./foscan-scan`, press Ctrl+c to exit.
  * `CAMERA_USERNAME`
  * `CAMERA_PASSWORD`
  * `CAMERA_STREAMNAME` - This'll either be "videoMain" or "videoSub" for the Main or Sub encoder streams.
@@ -45,3 +45,11 @@ Start the services with:
 `./start`
 
 If all goes well, the SSH console to the RPi can now be closed and the application will continue to run. It will also automatically start if the RPi is rebooted.
+
+## Watch
+
+You can watch the debug output of the commands with:
+
+`./watch`
+
+Press Ctrl+c to exit.
