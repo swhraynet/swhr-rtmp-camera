@@ -1,17 +1,30 @@
 #!/usr/bin/env bash
 
-CAMERA_IP=""
-CAMERA_PORT="88" # "88" is a common default
-CAMERA_USERNAME="admin"
-CAMERA_PASSWORD="password123"
-CAMERA_STREAMNAME="videoMain" # "videoMain" or "videoSub"
+source_dir="$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)";
+cd "${source_dir}";
 
-SERVER_STREAM_KEY=""
+COLOUR_GREEN='\033[0;32m'
+COLOUR_YELLOW='\033[0;33m'
+COLOUR_PURPLE='\033[0;35m'
+COLOUR_RED='\033[0;31m'
+DECOR_BOLD='\033[1m';
+COLOUR_DECOR_OFF='\033[0;00m'
+CLEAR_LINE='\033[2K'
 
-while [ 1 ]
+if [ ! -f "camera-credentials" ];
+then
+    echo -e "${COLOUR_RED}${DECOR_BOLD}Error${COLOUR_DECOR_OFF}: Configuration file '${DECOR_BOLD}camera-credentials${COLOUR_DECOR_OFF}' not found.";
+    echo " - Copy 'camera-credentials.template' to 'camera-credentials'";
+    echo " - Edit 'camera-credentials' for your camera & stream login details.";
+    exit 1;
+fi
+
+source camera-credentials;
+
+while [ 1 ];
 do
   echo "SWHR camera-rtmp: Starting ffmpeg.."
-  ffmpeg -hide_banner -rtsp_transport tcp -i rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT}/${CAMERA_STREAMNAME} -c:v copy -an -f flv rtmp://swhr.org.uk:1935/live/${SERVER_STREAM_KEY};
-  echo "SWHR camera-rtmp: WARNING ffmpeg exited, waiting 1 second.."
+  ffmpeg -hide_banner -nostats -loglevel warning -rtsp_transport tcp -i rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP_ADDRESS}:${CAMERA_PORT}/${CAMERA_STREAMNAME} -c:v copy -an -f flv rtmp://swhr.org.uk:1935/live/${RTMP_STREAM_KEY};
+  echo -e "SWHR camera-rtmp: ${COLOUR_RED}${DECOR_BOLD}WARNING${COLOUR_DECOR_OFF} ffmpeg exited, waiting 1 second.."
   sleep 1;
 done

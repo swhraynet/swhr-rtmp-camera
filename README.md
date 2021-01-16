@@ -4,41 +4,42 @@ This application is designed to stream the RTSP output of a FOSCAM camera to our
 
 ## Installation
 
-You'll need to install ffmpeg with:
-
-`sudo apt install ffmpeg`
-
-If you want to use the `foscam-scan` tool and you've installed ufw firewall then you'll need to open the receiving port with `sudo ufw allow 10000/udp`.
-
-Then download this repository to the RPi, you can either use the `git` command as below, or download a TAR from here: [master.tar.gz](https://github.com/philcrump/swhr-rtmp-camera/archive/master.tar.gz)
-
-`git clone https://github.com/philcrump/swhr-rtmp-camera`
-
-Change directory into the repository, and install the service scripts (this will set them to start on next boot)
+You'll need to install dependencies with:
 
 ```
+sudo apt install ffmpeg git curl
+sudo ufw allow 10000/udp
+```
+
+Then download this repository to the Raspberry Pi and install the system service:
+
+```
+git clone https://github.com/philcrump/swhr-rtmp-camera
 cd swhr-rtmp-camera/
 ./install
 ```
 
-The scripts will not be running at this point. You need to configure them first.
+The software will not be running at this point. You need to configure it first:
+
+## Scan for camera
+
+You can scan for FOSCAM camera IP addresses on the local network with this tool, press Ctrl+C to exit.
+
+`./foscam-scan`
 
 ## Configuration
 
-There are several parameters in the top of each file that need configuring before use:
+Copy _camera-credentials.template_ to _camera-credentials_
 
-### _camera-rtmp_
+Edit _camera-credentials_ with the following information:
 
- * `CAMERA_IP` - If unknown this can be found by scanning with the command `./foscan-scan`, press Ctrl+c to exit.
+ * `CAMERA_IP_ADDRESS`
  * `CAMERA_USERNAME`
  * `CAMERA_PASSWORD`
  * `CAMERA_STREAMNAME` - This'll either be "videoMain" or "videoSub" for the Main or Sub encoder streams.
 
- * `SERVER_STREAM_KEY` - This is the secret upload key for the video stream, contact Phil M0DNY if you don't have it.
-
-### _rtmp-watchdog_
-
- * `SERVER_STREAM_NAME` - This is the public name of the video stream, needs to match the secret upload key, contact Phil M0DNY if you don't have it.
+ * `RTMP_STREAM_KEY` - This is the secret upload key for the video stream, contact Phil M0DNY if you don't have it.
+ * `RTMP_STREAM_NAME` - This is the public name of the video stream, needs to match the secret upload key, contact Phil M0DNY if you don't have it.
 
 ## Run
 
@@ -46,7 +47,9 @@ Start the services with:
 
 `./start`
 
-If all goes well, the SSH console to the RPi can now be closed and the application will continue to run. It will also automatically start if the RPi is rebooted.
+Watch for the camera to appear on the public webpage, which may take 30 seconds or so.
+
+If all goes well, the SSH console to the Raspberry Pi can now be closed and the application will continue to run. It will automatically start again if the Raspberry Pi is rebooted.
 
 ## Watch
 
