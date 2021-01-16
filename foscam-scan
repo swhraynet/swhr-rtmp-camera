@@ -41,7 +41,7 @@ try:
                     serial = struct.unpack('22s', msg[86:108])
                     unknown = struct.unpack('4s', msg[121:125]) # BZZZ ??
                     if mac_str not in foundCameras:
-                        print(" - Found Camera, Name: \"%s\" MAC: [%s] IP Address: %d.%d.%d.%d Port: %d" % (model_str, mac_str, addr_bytes[0], addr_bytes[1], addr_bytes[2], addr_bytes[3], port_num))
+                        print(" - Found \"%s\" IP Address: %d.%d.%d.%d Port: %d MAC: [%s]" % (model_str, addr_bytes[0], addr_bytes[1], addr_bytes[2], addr_bytes[3], port_num, mac_str))
                         foundCameras.append(mac_str)
         except socket.timeout:
             continue
