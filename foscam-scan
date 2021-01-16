@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Note that port 10000 UDP has to be open
+# eg. `sudo ufw allow 10000/udp`
+
 import socket
 import struct
 from time import sleep

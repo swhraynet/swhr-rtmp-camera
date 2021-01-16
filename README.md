@@ -8,6 +8,8 @@ You'll need to install ffmpeg with:
 
 `sudo apt install ffmpeg`
 
+If you want to use the `foscam-scan` tool and you've installed ufw firewall then you'll need to open the receiving port with `sudo ufw allow 10000/udp`.
+
 Then download this repository to the RPi, you can either use the `git` command as below, or download a TAR from here: [master.tar.gz](https://github.com/philcrump/swhr-rtmp-camera/archive/master.tar.gz)
 
 `git clone https://github.com/philcrump/swhr-rtmp-camera`
