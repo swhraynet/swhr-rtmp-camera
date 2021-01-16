@@ -20,7 +20,7 @@ s.settimeout(1)
 
 try:
     while True:
-        print("Scanning..")
+        print("Scanning.. (press Ctrl+C to exit)")
 
         s.sendto(pkt1, ('<broadcast>', port))
         s.sendto(pkt2, ('<broadcast>', port))
@@ -41,7 +41,7 @@ try:
                     serial = struct.unpack('22s', msg[86:108])
                     unknown = struct.unpack('4s', msg[121:125]) # BZZZ ??
                     if mac_str not in foundCameras:
-                        print(" - %s [%s] %d.%d.%d.%d:%d" % (model_str, mac_str, addr_bytes[0], addr_bytes[1], addr_bytes[2], addr_bytes[3], port_num))
+                        print(" - Found Camera, Name: \"%s\" MAC: [%s] IP Address: %d.%d.%d.%d Port: %d" % (model_str, mac_str, addr_bytes[0], addr_bytes[1], addr_bytes[2], addr_bytes[3], port_num))
                         foundCameras.append(mac_str)
         except socket.timeout:
             continue
